@@ -13,4 +13,6 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include "MinHook.h"
+#include <vector>
+#include <iostream>
 #endif //PCH_H

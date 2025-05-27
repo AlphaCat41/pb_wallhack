@@ -1,6 +1,7 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 #include "HookDraw.h"
+#include "HackMemory.h"
 
 DWORD WINAPI InitHook (LPVOID) {
 	// √Õ„ÀÈ‡°¡‚À≈¥ Direct3D9.dll
@@ -43,6 +44,7 @@ BOOL APIENTRY DllMain (HMODULE hModule,
 	case DLL_PROCESS_ATTACH:
 		DisableThreadLibraryCalls (hModule);
 		CreateThread (nullptr, 0, InitHook, nullptr, 0, nullptr);
+		CreateThread (nullptr, 0, HackThread, nullptr, 0, nullptr);
 		break;
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
