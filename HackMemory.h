@@ -42,7 +42,7 @@ DWORD WINAPI HackThread (LPVOID lpParam) {
 		// bullet
 		{ 1, baseAddress + 0x010339A0, { 0x2C, 0x200, 0x0 } },
 		// fast
-		//{ 2, baseAddress + 0x010339A0, { 0x6A8, 0x30, 0x8B0 } },
+		{ 2, baseAddress + 0x010339A0, { 0x6A8, 0x30, 0x8B0 } },
 	};
 
 	while (true) {
