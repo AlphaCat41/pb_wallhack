@@ -2,6 +2,7 @@
 [+] Wallhack \
 [+] Unlimited Bullet \
 [+] Unlimited HP \
+[+] Sniper, shotgun, rapid fire \
 \
 ****This is for education purposes only.***
 ## Requirement
