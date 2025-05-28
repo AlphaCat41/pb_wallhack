@@ -10,7 +10,7 @@ struct PointerChain {
 
 float hp = 200;
 float bullet = 200;
-float fast = 2; // 0 = normal, 1 = fast
+float fast = 2; // 0 = normal, 2 = fast
 
 // -------- Resolve Multi-level Pointer --------
 uintptr_t ResolvePointer (uintptr_t base, const std::vector<uintptr_t>& offsets) {
@@ -29,20 +29,19 @@ void PatchNOP (BYTE* address, size_t size) {
 	VirtualProtect (address, size, oldProtect, &oldProtect);
 }
 
-// -------- Thread Logic --------
-DWORD WINAPI HackThread (LPVOID lpParam) {
+void WriteMemory () {
 	uintptr_t baseAddress = (uintptr_t)GetModuleHandleA ("PointBlank.exe");
 	if (!baseAddress) {
 		MessageBoxA (NULL, "Failed to get module handle.", "Error", MB_ICONERROR | MB_OK);
-		return 1; // Exit if module not found
+		return; // Exit if module not found
 	}
 	std::vector<PointerChain> targets = {
 		// hp
 		{ 0, baseAddress + 0x010339A0, { 0x540, 0xC, 0x13C, 0x4 } },
 		// bullet
-		{ 1, baseAddress + 0x010339A0, { 0x2C, 0x200, 0x0 } },
+		//{ 1, baseAddress + 0x010339A0, { 0x2C, 0x200, 0x0 } },
 		// fast
-		{ 2, baseAddress + 0x010339A0, { 0x6A8, 0x30, 0x8B0 } },
+		//{ 2, baseAddress + 0x010339A0, { 0x6A8, 0x30, 0x8B0 } },
 	};
 
 	while (true) {
@@ -67,6 +66,9 @@ DWORD WINAPI HackThread (LPVOID lpParam) {
 
 		Sleep (100); // Don't hog CPU
 	}
-
+}
+// -------- Thread Logic --------
+DWORD WINAPI HackThread (LPVOID lpParam) {
+	WriteMemory ();
 	return 0;
 }
