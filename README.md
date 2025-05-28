@@ -1,4 +1,8 @@
-# PointBlank Wallhack
+# PointBlank Hack
+[+] Wallhack \
+[+] Unlimited Bullet \
+[+] Unlimited HP \
+\
 ****This is for education purposes only.***
 ## Requirement
 - [DirectX 9](https://www.microsoft.com/en-us/download/details.aspx?id=8109)
