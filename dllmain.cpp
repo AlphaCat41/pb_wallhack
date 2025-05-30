@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "HookDraw.h"
 #include "HackMemory.h"
+#include "HookEndScene.h"
 
 DWORD WINAPI InitHook (LPVOID) {
 	// √Õ„ÀÈ‡°¡‚À≈¥ Direct3D9.dll
@@ -29,6 +30,11 @@ DWORD WINAPI InitHook (LPVOID) {
 	MH_Initialize ();
 	MH_CreateHook (vTable[82], &hkDrawIndexedPrimitive, reinterpret_cast<void**>(&oDrawIndexedPrimitive));
 	MH_EnableHook (vTable[82]);
+	MH_CreateHook (vTable[42], hkEndScene, (void**)&oEndScene);
+	MH_EnableHook (vTable[42]);
+
+	gameWindow = d3dpp.hDeviceWindow;
+	oWndProc = (WNDPROC)SetWindowLongPtr (gameWindow, GWLP_WNDPROC, (LONG_PTR)hkWndProc);
 
 	pDevice->Release ();
 	pD3D->Release ();

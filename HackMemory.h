@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "HookEndScene.h"
 
 // -------- Configuration --------
 struct PointerChain {
@@ -50,13 +51,13 @@ void WriteMemory () {
 			if (targetAddress) {
 				switch (chain.type) {
 				case 0: // hp
-					*(float*)targetAddress = hp;
+					if (hpHackEnabled) *(float*)targetAddress = hp;
 					break;
 				case 1: // bullet
-					*(float*)targetAddress = bullet;
+					if (bulletHackEnabled) *(float*)targetAddress = bullet;
 					break;
 				case 2: // fast
-					*(float*)targetAddress = fast;
+					if (fastHackEnabled) *(float*)targetAddress = fast;
 				default:
 					break;
 				}

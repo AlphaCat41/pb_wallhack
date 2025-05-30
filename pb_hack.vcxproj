@@ -141,6 +141,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="HackMemory.h" />
     <ClInclude Include="HookDraw.h" />
+    <ClInclude Include="HookEndScene.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
