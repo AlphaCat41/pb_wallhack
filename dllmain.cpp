@@ -23,7 +23,21 @@ DWORD WINAPI InitHook (LPVOID) {
 		return 0;
 	}
 
+	HMODULE baseAddress = GetModuleHandleA ("PointBlank.exe");
+	// Add a null check for baseAddress before dereferencing it
+	if (!baseAddress) {
+		MessageBoxW (nullptr, L"Failed to get module handle for PointBlank.exe.", L"Error", MB_OK | MB_ICONERROR);
+		return 0;
+	}
+
+	uintptr_t  vtable_CGameCharaBase = (uintptr_t)baseAddress + 0x014ec300;
+	if (IsBadReadPtr ((void*)vtable_CGameCharaBase, sizeof (uintptr_t*))) {
+		MessageBoxW (nullptr, L"Invalid pointer at offset.", L"Error", MB_OK | MB_ICONERROR);
+		return 0;
+	}
+
 	void** vTable = *reinterpret_cast<void***>(pDevice);
+	void* targetFunction = (void*)vtable_CGameCharaBase[5];
 
 	MH_Initialize ();
 	MH_CreateHook (vTable[82], &hkDrawIndexedPrimitive, reinterpret_cast<void**>(&oDrawIndexedPrimitive));
