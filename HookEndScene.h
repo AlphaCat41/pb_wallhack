@@ -11,6 +11,7 @@ bool fastHackEnabled = false;
 
 HWND gameWindow = NULL;
 WNDPROC oWndProc = NULL;
+ID3DXFont* font = nullptr;
 
 // 🟢 Hook EndScene
 HRESULT APIENTRY hkEndScene (LPDIRECT3DDEVICE9 pDevice) {
@@ -18,37 +19,38 @@ HRESULT APIENTRY hkEndScene (LPDIRECT3DDEVICE9 pDevice) {
 		RECT rect = { 20, 20, 200, 100 };
 
 		// 🔳 วาดพื้นหลังเมนู
-		D3DRECT box = { rect.left, rect.top, rect.right, rect.bottom };
-		pDevice->Clear (1, &box, D3DCLEAR_TARGET, D3DCOLOR_ARGB (180, 0, 0, 0), 0, 0);
+		/*D3DRECT box = { rect.left, rect.top, rect.right, rect.bottom };
+		pDevice->Clear (1, &box, D3DCLEAR_TARGET, D3DCOLOR_ARGB (180, 0, 0, 0), 0, 0);*/
 
 		// 🔡 วาดข้อความสถานะ
-		ID3DXFont* font = nullptr;
-		D3DXCreateFont (pDevice, 16, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET,
-			OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
-			TEXT ("Tahoma"), &font);
-
-		if (font) {
-			std::wstring lines[] = {
-				L"[F1] HP: " + std::wstring (hpHackEnabled ? L"ON" : L"OFF"),
-				L"[F2] Bullet: " + std::wstring (bulletHackEnabled ? L"ON" : L"OFF"),
-				L"[F3] Fast: " + std::wstring (fastHackEnabled ? L"ON" : L"OFF")
-			};
-
-			int startX = 30;
-			int startY = 30;
-			int lineHeight = 20; // ความสูงของแต่ละบรรทัด
-
-			for (int i = 0; i < ARRAYSIZE (lines); ++i) {
-				RECT textRect = {
-					startX,
-					startY + (i * lineHeight),
-					startX + 200,
-					startY + (i * lineHeight) + lineHeight
-				};
-				font->DrawTextW (NULL, lines[i].c_str (), -1, &textRect, DT_LEFT, D3DCOLOR_XRGB (255, 255, 255));
-			}
-
+		if (!font) {
+			D3DXCreateFont (pDevice, 16, 0, FW_NORMAL, 1, FALSE, DEFAULT_CHARSET,
+				OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
+				TEXT ("Tahoma"), &font);
 		}
+
+		std::wstring lines[] = {
+			L"[INSERT] Show Menu: " + std::wstring (showMenu ? L"ON" : L"OFF"),
+			L"[F1] HP: " + std::wstring (hpHackEnabled ? L"ON" : L"OFF"),
+			L"[F2] Bullet: " + std::wstring (bulletHackEnabled ? L"ON" : L"OFF"),
+			L"[F3] Fast: " + std::wstring (fastHackEnabled ? L"ON" : L"OFF")
+		};
+
+		int startX = 30;
+		int startY = 30;
+		int lineHeight = 20; // ความสูงของแต่ละบรรทัด
+
+		for (int i = 0; i < ARRAYSIZE (lines); ++i) {
+			RECT textRect = {
+				startX,
+				startY + (i * lineHeight),
+				startX + 200,
+				startY + (i * lineHeight) + lineHeight
+			};
+			font->DrawTextW (NULL, lines[i].c_str (), -1, &textRect, DT_LEFT, D3DCOLOR_XRGB (255, 255, 255));
+		}
+
+
 	}
 
 	return oEndScene (pDevice);

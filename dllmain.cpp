@@ -33,7 +33,7 @@ DWORD WINAPI InitHook (LPVOID) {
 	MH_CreateHook (vTable[42], hkEndScene, (void**)&oEndScene);
 	MH_EnableHook (vTable[42]);
 
-	gameWindow = d3dpp.hDeviceWindow;
+	HWND gameWindow = FindWindowA (NULL, "Point Blank");
 	oWndProc = (WNDPROC)SetWindowLongPtr (gameWindow, GWLP_WNDPROC, (LONG_PTR)hkWndProc);
 
 	pDevice->Release ();
